@@ -1,0 +1,24 @@
+---
+- hosts: ws 
+  become: yes 
+  gather_facts: false
+  ignore_errors: True 
+  tasks: 
+    # - name: download artifacts from nexus 
+    #   get_url: 
+    #      url: http://172.31.49.253:8081/#browse/browse:AYUKREPO:bioMedical-0.0.2-SNAPSHOT.jar
+    #      dest: /tmp
+    #      url_username: admin 
+    #      url_password: master 
+    - name: install 1xml 
+      package: 
+         name: python-lxml
+         state: present 
+    - name: download artifact 
+      maven_artifact:
+       group_id: com.spring
+       artifact_id: biomedical 
+       repository_url: ttp://172.31.49.253:8081/#browse/browse:AYUKREPO:bioMedical-0.0.2-SNAPSHOT.jar
+       username: admin
+       password: master
+       dest: /tmp/ayuk.jar

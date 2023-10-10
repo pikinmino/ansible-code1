@@ -3,21 +3,41 @@
   become: yes
   gather_facts: yes
   tasks: 
-    - name: install passwd package 
-      apt:
+    # - name: install softwares
+    #   package:
+    #       state: present 
+    #       name:
+    #         wget
+    #         ntp
+    #         finger
+    #         curl
+      - name: install package 
+        package:
+         state: present 
+         name: "{{item}}" 
+        loop:
+
+         - wget
+         - finger 
+         - curl 
+         - ntp 
+
+
+      - name: install passwd package
+        apt:
          name: passwd
          state: present 
-      when: ansible_distribution not in "Debian, Ubuntu"
-    - name: create group
-      group:
+        when: ansible_distribution not in "Debian, Ubuntu"
+      - name: create group
+        group:
           name: cloudteam
           state: present
-#    when: ansible_distribution _major_version < 9
-    - name: create user
-      user:
-        name: Ayuk2023
-        comment: Ayuk admin
-        group: cloudteam
+          #  when: ansible_distribution _major_version < 9
+      - name: create user
+        user:
+          name: Ayuk2023
+          comment: Ayuk admin
+          group: cloudteam
 
 - hosts: db
   become: yes 
